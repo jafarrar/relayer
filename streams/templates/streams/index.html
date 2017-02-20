@@ -1,0 +1,13 @@
+{% if latest_stream_list %}
+    <ul>
+    {% for stream in latest_stream_list %}
+        {% if stream.is_private %}
+        <li>{{ stream.stream_name }}</li>
+        {% else %}
+        <li><a href="{% url 'streams:detail' stream.slug %}">{{ stream.stream_name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No streams are available.</p>
+{% endif %}
