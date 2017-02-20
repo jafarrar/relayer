@@ -1,8 +1,8 @@
 
-from .models import Stream
-
 from django.test import TestCase
 from django.urls import reverse
+
+from .models import Stream
 
 def create_stream(stream_name, slug, is_private):
     """
@@ -11,6 +11,9 @@ def create_stream(stream_name, slug, is_private):
     return Stream.objects.create(stream_name=stream_name, slug=slug, is_private=is_private)
 
 class StreamMethodTests(TestCase):
+    """
+    Tests for the Stream model's methods
+    """
     def test_generated_stream_key_is_to_specs(self):
         """
         generate_stream_key() should a generate a 21-character string
@@ -20,6 +23,9 @@ class StreamMethodTests(TestCase):
         self.assertEqual(len(stream.stream_key), 21)
 
 class StreamIndexTests(TestCase):
+    """
+    Tests for index.html
+    """
     def test_index_view_with_no_streams(self):
         """
         If no streams exist, an appropriate message should be displayed.
@@ -30,6 +36,9 @@ class StreamIndexTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_stream_list'], [])
 
 class StreamViewTests(TestCase):
+    """
+    Tests for detail.html
+    """
     def test_detail_view_is_empty_if_private(self):
         """
         If the stream is prviate, user should not see anything.

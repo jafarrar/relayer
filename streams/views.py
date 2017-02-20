@@ -6,6 +6,9 @@ from .models import Stream
 
 
 class IndexView(generic.ListView):
+    """
+    Defines the index view that lists 20 streams
+    """
     template_name = 'streams/index.html'
     context_object_name = 'latest_stream_list'
 
