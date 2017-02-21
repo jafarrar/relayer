@@ -1,13 +1,31 @@
+{% extends 'streams/base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Relayer</h1>
+        <p>Relayer is a front-end for managing nginx-rtmp streams.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+    </div>
+</div>
+<div class="container">
+    <h2>Recent streams</h2>
 {% if latest_stream_list %}
-    <ul>
+    <div class="card-columns">
     {% for stream in latest_stream_list %}
-        {% if stream.is_private %}
-        <li>{{ stream.stream_name }}</li>
-        {% else %}
-        <li><a href="{% url 'streams:detail' stream.slug %}">{{ stream.stream_name }}</a></li>
+        {% if stream.is_private == False %}
+        <div class="card">
+            <h3 class="card-header">{{ stream.stream_name }}</h3>
+            <div class="card-block">
+                <p class="card-text">{{ stream.description }}</p>
+                <a class="btn btn-primary" href="{% url 'streams:detail' stream.slug %}">Watch {{ stream.stream_name }}</a>
+            </div>
+        </div>
         {% endif %}
     {% endfor %}
-    </ul>
+    </div>
 {% else %}
     <p>No streams are available.</p>
 {% endif %}
+</div>
+{% endblock %}

@@ -10,6 +10,7 @@ class Stream(models.Model):
     """
     stream_name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=20, unique=True)
+    description = models.CharField(max_length=256, default='')
     stream_key = models.CharField(max_length=32)
     creation_date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)

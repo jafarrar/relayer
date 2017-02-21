@@ -1,5 +1,7 @@
 
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -7,6 +9,6 @@ app_name = 'streams'
 urlpatterns = [
     # ex: /streams/
     url(r'^$', views.IndexView.as_view(), name='index'),
-    # ex: /streams/5/
+    # ex: /streams/billy/
     url(r'^(?P<slug>[-\w]+)/$', views.DetailView.as_view(), name='detail'),
 ]

@@ -1,6 +1,7 @@
 
 from django.utils import timezone
 from django.views import generic
+from django.contrib.auth.decorators import user_passes_test
 
 from .models import Stream
 
@@ -20,7 +21,9 @@ class IndexView(generic.ListView):
             creation_date__lte=timezone.now()
         ).order_by('-creation_date')[:20]
 
-
 class DetailView(generic.DetailView):
+    """
+    Defines the view for a single stream
+    """
     model = Stream
     template_name = 'streams/detail.html'

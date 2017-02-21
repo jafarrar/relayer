@@ -1,23 +1,35 @@
+{% extends 'streams/base.html' %}
 {% load static %}
 
-{% if stream.is_private %}
-<p>Private stream.</p>
-{% else %}
-<h1>{{ stream.stream_name }}</h1>
-<div id="relayerPlayer">Loading the player...</div>
-
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-{% endif %}
-
-<script src="{% static 'streams/lib/jwplayer/jwplayer.js' %}"></script>
-<script>jwplayer.key="{{JWPLAYER_KEY}}|default:''";</script>
-<script type="text/javascript">
-    jwplayer("relayerPlayer").setup({
-        file: "{{RTMP_BASE_URL}}{{ stream.slug }}_{{ stream.stream_key}}",
-        width: "75%",
-        aspectratio: "16:9",
-        autostart: true,
-        volume: 50,
-        controls: true,
-    });
-</script>
+{% block content %}
+    {% if stream.is_private and not user.is_authenticated %}
+    <div class="container">
+        <div class="alert alert-danger" role="alert">
+            <strong>Private stream!</strong> You shall not pass.
+        </div>
+    </div>
+    {% else %}
+    <div class="container">
+        <h1>{{ stream.stream_name }}</h1>
+        <div class="embed-responsive">
+            <div id="relayerPlayer">Loading the player...</div>
+        </div>
+        
+    </div>
+    <script src="{% static 'streams/lib/jwplayer/jwplayer.js' %}"></script>
+    <script>jwplayer.key="{{JWPLAYER_KEY|default:''}}";</script>
+    <script type="text/javascript">
+        jwplayer("relayerPlayer").setup({
+            file: "{{RTMP_BASE_URL}}{{ stream.slug }}_{{ stream.stream_key}}",
+            aspectratio: "16:9",
+            width: "100%",
+            autostart: true,
+            volume: 50,
+            controls: true,
+            responsive: true,
+            title: "{{stream.stream_name}}",
+            description: "{{stream.description}}"
+        });
+    </script>
+    {% endif %}
+{% endblock %}
