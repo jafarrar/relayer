@@ -1,4 +1,5 @@
 {% extends 'streams/base.html' %}
+{% block title %}{{stream.stream_name}}{% endblock %}
 {% load static %}
 
 {% block content %}
@@ -20,7 +21,7 @@
     <script>jwplayer.key="{{JWPLAYER_KEY|default:''}}";</script>
     <script type="text/javascript">
         jwplayer("relayerPlayer").setup({
-            file: "{{RTMP_BASE_URL}}{{ stream.slug }}_{{ stream.stream_key}}",
+            file: "{{RTMP_BASE_URL}}{{ stream.stream_key}}",
             aspectratio: "16:9",
             width: "100%",
             autostart: true,
