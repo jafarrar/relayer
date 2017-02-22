@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.urls import reverse
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -39,6 +40,9 @@ class Stream(models.Model):
 
     def __str__(self):
         return self.stream_name
+
+    def get_absolute_url(self):
+        return '/settings'
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_stream_for_new_user(sender, created, instance, **kwargs):

@@ -1,7 +1,8 @@
 
 from django.utils import timezone
 from django.views import generic
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Stream
 
@@ -14,7 +15,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """
-        Return the last 20 streams created.
+        Return the last 20 streams created, excluding private streams unless >staff
         """
         if self.request.user.is_staff:
             return Stream.objects.filter(
@@ -33,9 +34,18 @@ class DetailView(generic.DetailView):
     model = Stream
     template_name = 'streams/detail.html'
 
-class SettingsView(generic.DetailView):
+
+class SettingsView(LoginRequiredMixin, generic.UpdateView):
     """
-    Defines the view for a single stream
+    Defines the view for a user's settings page
     """
     model = Stream
+    fields = ['stream_name', 'description', 'stream_key']
     template_name = 'streams/settings.html'
+
+    login_url = '/login/'
+    success_url = '/' #placeholder while I wrangle with reverse/reverse_lazy
+
+    def get_object(self, queryset=None):
+        return Stream.objects.get(slug=self.request.user.stream.slug)
+
