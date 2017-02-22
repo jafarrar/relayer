@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     # ex: /streams/billy/
     url(r'^(?P<slug>[-\w]+)/$', views.DetailView.as_view(), name='detail'),
+    # ex: /streams/billy/settings
+    url(r'^(?P<slug>[-\w]+)/settings/$', views.SettingsView.as_view(), name='settings'),
 ]

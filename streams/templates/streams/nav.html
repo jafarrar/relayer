@@ -13,9 +13,7 @@
             <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent Streams</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
                 {% for stream in NAV_STREAM_LIST %}
-                {% if stream.is_private == False or user.is_staff %}
                 <a class="dropdown-item" href="{% url 'streams:detail' stream.slug %}">{{ stream.stream_name }}</a>
-                {% endif %}
                 {% endfor %}
             </div>
         </li>

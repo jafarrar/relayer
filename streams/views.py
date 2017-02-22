@@ -1,10 +1,9 @@
 
 from django.utils import timezone
 from django.views import generic
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from .models import Stream
-
 
 class IndexView(generic.ListView):
     """
@@ -17,9 +16,15 @@ class IndexView(generic.ListView):
         """
         Return the last 20 streams created.
         """
-        return Stream.objects.filter(
-            creation_date__lte=timezone.now()
-        ).order_by('-creation_date')[:20]
+        if self.request.user.is_staff:
+            return Stream.objects.filter(
+                creation_date__lte=timezone.now()
+            ).order_by('-creation_date')[:20]
+        else:
+            return Stream.objects.filter(
+                creation_date__lte=timezone.now(),
+                is_private=False
+            ).order_by('-creation_date')[:20]
 
 class DetailView(generic.DetailView):
     """
@@ -27,3 +32,10 @@ class DetailView(generic.DetailView):
     """
     model = Stream
     template_name = 'streams/detail.html'
+
+class SettingsView(generic.DetailView):
+    """
+    Defines the view for a single stream
+    """
+    model = Stream
+    template_name = 'streams/settings.html'

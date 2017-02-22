@@ -14,7 +14,6 @@
 {% if latest_stream_list %}
     <div class="card-columns">
     {% for stream in latest_stream_list %}
-        {% if stream.is_private == False %}
         <div class="card">
             <h3 class="card-header">{{ stream.stream_name }}</h3>
             <div class="card-block">
@@ -22,7 +21,6 @@
                 <a class="btn btn-primary" href="{% url 'streams:detail' stream.slug %}">Watch {{ stream.stream_name }}</a>
             </div>
         </div>
-        {% endif %}
     {% endfor %}
     </div>
 {% else %}
