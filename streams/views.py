@@ -1,9 +1,10 @@
 
 from django.utils import timezone
 from django.views import generic
-from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
+from .helpers import generate_stream_key
 from .models import Stream
 
 class IndexView(generic.ListView):
@@ -44,8 +45,10 @@ class SettingsView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'streams/settings.html'
 
     login_url = '/login/'
-    success_url = '/' #placeholder while I wrangle with reverse/reverse_lazy
+    success_url = '/settings' #placeholder while I wrangle with reverse/reverse_lazy
 
     def get_object(self, queryset=None):
         return Stream.objects.get(slug=self.request.user.stream.slug)
 
+def generate_stream_key_view(request):
+    return JsonResponse({'key': generate_stream_key()})

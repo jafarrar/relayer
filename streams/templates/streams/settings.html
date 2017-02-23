@@ -9,9 +9,26 @@
         {% csrf_token %}
         {{ form|bootstrap }}
         <div class="form-group">
+        <button type="input" class="btn btn-primary" id="generate_new_stream_key">Generate New Stream Key</button>
         <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+    $(function() {
+        $('#generate_new_stream_key').click( function(e) {
+            e.preventDefault();
+            $.getJSON("generate_stream_key/", function(data) {
+                console.log(data);
+                if(data.key) {
+                    document.querySelector('#id_stream_key').value = data.key;
+                }
+            })
+        })
+    })
+</script>
 {% endblock %}

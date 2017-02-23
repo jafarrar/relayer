@@ -12,25 +12,22 @@
     {% else %}
     <div class="container">
         <h1>{{ stream.stream_name }}</h1>
+
         <div class="embed-responsive">
-            <div id="relayerPlayer">Loading the player...</div>
+            <video id="relayer-player" width=960 height=540 class="video-js vjs-default-skin vjs-16-9" controls>
+                <source
+                    src="{{ HLS_BASE_URL }}/{{ stream.stream_key }}/index.m3u8"
+                    type="application/x-mpegURL">
+            </video>
         </div>
         
     </div>
-    <script src="{% static 'streams/lib/jwplayer/jwplayer.js' %}"></script>
-    <script>jwplayer.key="{{ JWPLAYER_KEY|default:'' }}";</script>
-    <script type="text/javascript">
-        jwplayer("relayerPlayer").setup({
-            file: "{{ RTMP_BASE_URL }}{{ stream.stream_key }}",
-            aspectratio: "16:9",
-            width: "100%",
-            autostart: true,
-            volume: 50,
-            controls: true,
-            responsive: true,
-            title: "{{ stream.stream_name }}",
-            description: "{{ stream.description }}"
-        });
+
+    <script src="http://vjs.zencdn.net/5.16.0/video.js"></script>
+    <script src="{% static 'streams/lib/videojs-contrib-hls.min.js' %}"></script>
+    <script>
+    var player = videojs('relayer-player');
+    player.play();
     </script>
     {% endif %}
 {% endblock %}

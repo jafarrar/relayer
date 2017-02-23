@@ -10,7 +10,7 @@ def global_settings(request):
     """
     return {
         'RTMP_BASE_URL': settings.RTMP_BASE_URL,
-        'JWPLAYER_KEY': settings.JWPLAYER_KEY
+        'HLS_BASE_URL': settings.HLS_BASE_URL
     }
 
 def nav_stream_list(request):
