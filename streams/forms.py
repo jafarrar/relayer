@@ -1,7 +1,13 @@
 
-from django import forms
+from django.forms import ModelForm
+from .models import Stream
 
-class SettingsForm(forms.form):
-    stream_name = forms.CharField()
-    stream_key = forms.CharField()
-    description = forms.CharField()
+class StreamForm(ModelForm):
+    class Meta:
+        model = Stream
+        fields = ['stream_name', 'stream_key', 'description', 'is_private']
+        labels = {
+            'stream_name': ('Stream Title'),
+            'stream_key': ('Stream Key'),
+            'is_private': ('Private'),
+        }

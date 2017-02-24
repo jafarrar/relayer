@@ -41,7 +41,7 @@ class SettingsView(LoginRequiredMixin, generic.UpdateView):
     Defines the view for a user's settings page
     """
     model = Stream
-    fields = ['stream_name', 'description', 'stream_key']
+    fields = ['stream_name', 'description', 'stream_key', 'is_private']
     template_name = 'streams/settings.html'
 
     login_url = '/login/'

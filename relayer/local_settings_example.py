@@ -1,4 +1,5 @@
+
 # Relayer-specific settings for the stream playback ('details') page
 
-RTMP_BASE_URL = 'rtmp://yourURL.com'
-JWPLAYER_KEY = 'yourJWPlayerKey'
+RTMP_BASE_URL = 'rtmp://yourserver/hls'
+HLS_BASE_URL = 'https://yourserver.com/hls/appname'

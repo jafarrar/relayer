@@ -5,14 +5,47 @@
 {% block content %}
 <div class="container">
 <h1>Settings</h1>
-    <form class="form-settings" method="post">
-        {% csrf_token %}
-        {{ form|bootstrap }}
-        <div class="form-group">
-        <button type="input" class="btn btn-primary" id="generate_new_stream_key">Generate New Stream Key</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Stream Setup Information
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">RTMP URL: &nbsp; {{ RTMP_BASE_URL }}{{ user.stream.stream_key }}</li>
+                    <li class="list-group-item">Public URL: &nbsp; <a href="{% url 'streams:detail' user.stream.slug %}"> {% url 'streams:detail' user.stream.slug %}</a></li>
+                    <li class="list-group-item">
+                        {% if user.stream.is_private %}
+                            Only you and administrators can view your stream.
+                        {% else %}
+                            Anyone with the URL can view your stream.
+                        {% endif %} 
+                    </li>
+                </ul>
+                <div class="card-block">
+                    <a href="https://obsproject.com/" class="card-link">Open Broadcaster Software</a>
+                    <a href="https://www.xsplit.com/" class="card-link">XSplit</a>
+                </div>
+            </div>
         </div>
-    </form>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Edit Stream Settings
+                </div>
+                <div class="card-block">
+                    <form class="form-settings" method="post">
+                        {% csrf_token %}
+                        {{ form|bootstrap }}
+                        <div class="form-group">
+                        <button type="input" class="btn btn-warning" id="generate_new_stream_key">Generate New Stream Key</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
@@ -22,12 +55,15 @@
     $(function() {
         $('#generate_new_stream_key').click( function(e) {
             e.preventDefault();
-            $.getJSON("generate_stream_key/", function(data) {
-                console.log(data);
-                if(data.key) {
-                    document.querySelector('#id_stream_key').value = data.key;
-                }
-            })
+            if(confirm("Are you sure you want to change your stream key?")) {
+                $.getJSON("generate_stream_key/", function(data) {
+                    console.log(data);
+                    if(data.key) {
+                        document.querySelector('#id_stream_key').value = data.key;
+                    }
+                })
+            }
+
         })
     })
 </script>
